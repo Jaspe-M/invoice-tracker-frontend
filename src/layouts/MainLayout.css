@@ -1,13 +1,31 @@
-.layout-container {
+.main-layout-wrapper {
     display: flex;
-    min-height: 100vh;
-    background-color: #0f1117;
-    color: #fff;
-    font-family: sans-serif;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 1rem;
+    width: 100%;
 }
 
-.layout-content {
+/* Increased screen height to comfortably fit everything */
+.main-content-frame {
+    width: 100%;
+    max-width: 1150px;
+    height: 760px;
+    overflow: hidden;
+    background-color: #0f1117;
+    border: 1px solid #262b36;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+}
+
+.dashboard-layout {
+    display: flex;
+    height: 100%;
+    align-items: stretch;
+}
+
+.page-content {
     flex: 1;
-    padding: 2rem;
+    padding: 1.25rem 1.5rem;
     overflow-y: auto;
 }

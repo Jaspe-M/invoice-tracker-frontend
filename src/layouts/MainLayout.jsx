@@ -4,11 +4,15 @@ import './MainLayout.css';
 
 export default function MainLayout() {
     return (
-        <div className="layout-container">
-            <Sidebar />
-            <main className="layout-content">
-                <Outlet />
-            </main>
+        <div className="main-layout-wrapper">
+            <div className="main-content-frame">
+                <div className="dashboard-layout">
+                    <Sidebar />
+                    <div className="page-content">
+                        <Outlet />
+                    </div>
+                </div>
+            </div>
         </div>
     );
 }
