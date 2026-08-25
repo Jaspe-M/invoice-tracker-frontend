@@ -1,0 +1,52 @@
+.recent-invoices-container {
+    width: 100%;
+    background-color: #161b22;
+    border: 1px solid #21262d;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.recent-invoices-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+    font-size: 0.875rem;
+}
+
+.recent-invoices-table th {
+    color: #8b949e;
+    font-weight: 500;
+    padding: 1rem 1.25rem;
+    border-bottom: 1px solid #21262d;
+}
+
+.recent-invoices-table td {
+    padding: 1rem 1.25rem;
+    border-bottom: 1px solid #21262d;
+    color: #ffffff;
+}
+
+.recent-invoices-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.col-description {
+    font-weight: 600;
+}
+
+.col-department {
+    color: #8b949e !important;
+}
+
+.col-amount {
+    font-weight: 600;
+}
+
+.empty-state {
+    text-align: center;
+    padding: 2rem;
+    color: #8b949e;
+    background-color: #161b22;
+    border-radius: 8px;
+    border: 1px solid #21262d;
+}
