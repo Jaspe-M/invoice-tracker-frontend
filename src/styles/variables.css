@@ -1,0 +1,15 @@
+:root {
+    --bg-page: #0d0e12;
+    --bg-card: #13151b;
+    --bg-sidebar: #181b24;
+    --bg-inner: #1c1f2b;
+    --border-color: #232733;
+    --border-input: #2d3345;
+    --text-primary: #f3f4f6;
+    --text-muted: #9ca3af;
+    --accent-blue: #2563eb;
+    --accent-green: #22c55e;
+    --accent-yellow: #f59e0b;
+    --accent-red: #ef4444;
+    --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+}
