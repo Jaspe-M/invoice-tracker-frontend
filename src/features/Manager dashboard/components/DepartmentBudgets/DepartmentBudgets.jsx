@@ -1,52 +1,41 @@
+import { useNavigate } from 'react-router-dom';
 import './DepartmentBudgets.css';
 
 export default function DepartmentBudgets({ departments = [] }) {
-    if (departments.length === 0) {
-        return <div className="dept-empty">No department budgets available.</div>;
-    }
+    const navigate = useNavigate();
+
+    const getStatusClass = (spent, budget) => {
+        if (spent > budget) return 'red';
+        if (spent >= budget * 0.8) return 'orange';
+        return 'green';
+    };
 
     return (
-        <div className="dept-list">
+        <div className="department-budgets-grid">
             {departments.map((dept) => {
-                const isOver = dept.spent > dept.budget;
-                const rawPercentage = Math.round((dept.spent / dept.budget) * 100);
-                const barWidth = Math.min(rawPercentage, 100);
-                const remaining = dept.budget - dept.spent;
-
-                // Decides status bar color
-                let statusColor = '#22c55e';
-                let statusText = `${rawPercentage}% used — €${remaining.toLocaleString()} remaining`;
-
-                if (isOver) {
-                    statusColor = '#ef4444';
-                    statusText = `Over budget by €${Math.abs(remaining).toLocaleString()}`;
-                } else if (rawPercentage >= 80) {
-                    statusColor = '#f59e0b';
-                }
+                const percentage = Math.min(Math.round((dept.spent / dept.budget) * 100), 100);
+                const statusClass = getStatusClass(dept.spent, dept.budget);
 
                 return (
-                    <div key={dept.id || dept.name} className="dept-card">
-                        <div className="dept-header">
-                            <span className="dept-name">{dept.name}</span>
+                    <div
+                        key={dept.id}
+                        className="department-card"
+                        onClick={() => navigate(`/departments/${dept.id}`)}
+                        role="button"
+                        tabIndex={0}
+                    >
+                        <div className="card-header">
+                            <span className="dept-title">{dept.name}</span>
                             <span className="dept-values">
-                            €{dept.spent.toLocaleString()} / €{dept.budget.toLocaleString()}
-                            </span>
+                <strong>€{dept.spent.toLocaleString()}</strong> / €{dept.budget.toLocaleString()}
+              </span>
                         </div>
 
-                        {/* progress bar */}
-                        <div className="dept-bar-track">
+                        <div className="progress-bar-bg">
                             <div
-                                className="dept-bar-fill"
-                                style={{
-                                    width: `${barWidth}%`,
-                                    backgroundColor: statusColor,
-                                }}
+                                className={`progress-bar-fill ${statusClass}`}
+                                style={{ width: `${percentage}%` }}
                             />
-                        </div>
-
-                        {/* Status beneath progress bar */}
-                        <div className="dept-status" style={{ color: statusColor }}>
-                            {statusText}
                         </div>
                     </div>
                 );

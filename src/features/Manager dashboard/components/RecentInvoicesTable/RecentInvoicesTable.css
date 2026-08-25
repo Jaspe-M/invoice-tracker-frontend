@@ -1,52 +1,94 @@
-.recent-invoices-container {
-    width: 100%;
-    background-color: #161b22;
-    border: 1px solid #21262d;
+.table-wrapper {
+    background-color: #161922;
+    border: 1px solid #262b36;
     border-radius: 8px;
     overflow: hidden;
 }
 
-.recent-invoices-table {
+.invoices-table {
     width: 100%;
     border-collapse: collapse;
     text-align: left;
-    font-size: 0.875rem;
 }
 
-.recent-invoices-table th {
-    color: #8b949e;
-    font-weight: 500;
+.invoices-table th {
+    background-color: #1a1e2a;
+    color: #94a3b8;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 0.85rem 1.25rem;
+    border-bottom: 1px solid #262b36;
+}
+
+.invoices-table td {
     padding: 1rem 1.25rem;
-    border-bottom: 1px solid #21262d;
+    font-size: 0.9rem;
+    color: #e2e8f0;
+    border-bottom: 1px solid #1e2430;
 }
 
-.recent-invoices-table td {
-    padding: 1rem 1.25rem;
-    border-bottom: 1px solid #21262d;
-    color: #ffffff;
-}
-
-.recent-invoices-table tbody tr:last-child td {
+.invoices-table tbody tr:last-child td {
     border-bottom: none;
 }
 
-.col-description {
-    font-weight: 600;
-}
-
-.col-department {
-    color: #8b949e !important;
-}
-
-.col-amount {
-    font-weight: 600;
+.invoices-table tbody tr:hover {
+    background-color: #1a1e2a;
 }
 
 .empty-state {
     text-align: center;
-    padding: 2rem;
-    color: #8b949e;
-    background-color: #161b22;
-    border-radius: 8px;
-    border: 1px solid #21262d;
+    color: #64748b;
+    padding: 2rem 1rem !important;
+}
+
+.status-badge {
+    display: inline-block;
+    padding: 0.25rem 0.6rem;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+.status-badge.pending {
+    background-color: rgba(249, 115, 22, 0.15);
+    color: #f97316;
+}
+
+.status-badge.approved {
+    background-color: rgba(34, 197, 94, 0.15);
+    color: #22c55e;
+}
+
+.status-badge.rejected {
+    background-color: rgba(239, 68, 68, 0.15);
+    color: #ef4444;
+}
+
+/* Styled Select Dropdown */
+.status-select {
+    background-color: #0f1117;
+    color: #f8fafc;
+    border: 1px solid #334155;
+    border-radius: 6px;
+    padding: 0.4rem 0.75rem;
+    font-size: 0.85rem;
+    font-weight: 500;
+    outline: none;
+    cursor: pointer;
+    transition: border-color 0.15s ease;
+}
+
+.status-select:focus {
+    border-color: #3b82f6;
+}
+
+.status-select option {
+    background-color: #161922;
+    color: #f8fafc;
+}
+
+.no-actions {
+    color: #64748b;
 }

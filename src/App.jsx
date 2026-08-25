@@ -1,12 +1,20 @@
+import { Routes, Route } from 'react-router-dom';
 import MainLayout from './layouts/MainLayout';
-import DashboardSection from './features/Manager dashboard/DashboardSection';
-import InvoiceSubmissionSection from './features/Employee dashboard/InvoiceSubmissionSection';
+import DashboardPage from './pages/DashboardPage';
+import InvoicesPage from './pages/InvoicesPage';
+import BudgetsPage from './pages/BudgetsPage';
+import DepartmentsPage from './pages/DepartmentsPage';
 
 export default function App() {
     return (
-        <MainLayout>
-            <DashboardSection />
-            <InvoiceSubmissionSection />
-        </MainLayout>
+        <Routes>
+            <Route path="/" element={<MainLayout />}>
+                <Route index element={<DashboardPage />} />
+                <Route path="invoices" element={<InvoicesPage />} />
+                <Route path="budgets" element={<BudgetsPage />} />
+                <Route path="departments" element={<DepartmentsPage />} />
+                <Route path="departments/:departmentId" element={<DepartmentsPage />} />
+            </Route>
+        </Routes>
     );
 }

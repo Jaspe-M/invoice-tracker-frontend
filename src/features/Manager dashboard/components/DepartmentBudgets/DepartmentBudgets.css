@@ -1,60 +1,68 @@
-.dept-list {
+.department-budgets-grid {
     display: flex;
     flex-direction: column;
     gap: 1rem;
 }
 
-.dept-card {
-    background-color: #161b22;
-    border: 1px solid #21262d;
+.department-card {
+    background-color: #161922;
+    border: 1px solid #262b36;
     border-radius: 8px;
-    padding: 1.25rem;
+    padding: 1.25rem 1.5rem;
+    cursor: pointer;
+    transition: transform 0.15s ease, border-color 0.15s ease, background-color 0.15s ease;
 }
 
-.dept-header {
+.department-card:hover {
+    border-color: #3b82f6;
+    background-color: #1a1e2a;
+    transform: translateY(-1px);
+}
+
+.card-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 0.75rem;
 }
 
-.dept-name {
-    font-weight: 600;
+.dept-title {
     font-size: 1rem;
-    color: #ffffff;
+    font-weight: 600;
+    color: #f8fafc;
 }
 
 .dept-values {
-    font-weight: 600;
-    font-size: 0.9rem;
+    font-size: 0.85rem;
+    color: #94a3b8;
+}
+
+.dept-values strong {
     color: #ffffff;
 }
 
-.dept-bar-track {
+.progress-bar-bg {
     width: 100%;
-    height: 6px;
-    background-color: #21262d;
-    border-radius: 3px;
+    height: 8px;
+    background-color: #0f1117;
+    border-radius: 4px;
     overflow: hidden;
-    margin-bottom: 0.6rem;
 }
 
-.dept-bar-fill {
+.progress-bar-fill {
     height: 100%;
-    border-radius: 3px;
+    border-radius: 4px;
     transition: width 0.3s ease;
 }
 
-.dept-status {
-    font-size: 0.8rem;
-    font-weight: 500;
+.progress-bar-fill.green {
+    background-color: #22c55e;
 }
 
-.dept-empty {
-    text-align: center;
-    padding: 2rem;
-    color: #8b949e;
-    background-color: #161b22;
-    border-radius: 8px;
-    border: 1px solid #21262d;
+.progress-bar-fill.orange {
+    background-color: #f97316;
+}
+
+.progress-bar-fill.red {
+    background-color: #ef4444;
 }
