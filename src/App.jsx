@@ -1,6 +1,6 @@
 import MainLayout from './layouts/MainLayout';
-import DashboardSection from './features/dashboard/DashboardSection';
-import InvoiceSubmissionSection from './features/invoices/InvoiceSubmissionSection';
+import DashboardSection from './features/Manager dashboard/DashboardSection';
+import InvoiceSubmissionSection from './features/Employee dashboard/InvoiceSubmissionSection';
 
 export default function App() {
     return (
