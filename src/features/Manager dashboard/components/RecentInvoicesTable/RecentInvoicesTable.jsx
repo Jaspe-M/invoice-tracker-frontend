@@ -23,39 +23,44 @@ export default function RecentInvoicesTable({ invoices = [], onStatusChange }) {
                         </td>
                     </tr>
                 ) : (
-                    invoices.map((inv) => (
-                        <tr key={inv.id}>
-                            <td>{inv.description}</td>
-                            <td>{inv.departmentName}</td>
-                            <td>€{inv.amount.toLocaleString()}</td>
-                            <td>
-                  <span className={`status-badge ${inv.status.toLowerCase()}`}>
-                    {inv.status}
-                  </span>
-                            </td>
-                            {showActions && (
+                    invoices.map((inv) => {
+                        const statusUpper = inv.status?.toUpperCase();
+                        const isPending = statusUpper === 'PENDING';
+
+                        return (
+                            <tr key={inv.id}>
+                                <td>{inv.description}</td>
+                                <td>{inv.departmentName || inv.department?.name || 'N/A'}</td>
+                                <td>€{Number(inv.amount).toLocaleString()}</td>
                                 <td>
-                                    {inv.status === 'Pending' && (
-                                        <select
-                                            className="status-select"
-                                            defaultValue=""
-                                            onChange={(e) => {
-                                                if (e.target.value) {
-                                                    onStatusChange(inv.id, e.target.value);
-                                                }
-                                            }}
-                                        >
-                                            <option value="" disabled>
-                                                Select action...
-                                            </option>
-                                            <option value="Approved">Approve</option>
-                                            <option value="Rejected">Reject</option>
-                                        </select>
-                                    )}
+                                        <span className={`status-badge ${statusUpper?.toLowerCase()}`}>
+                                            {inv.status}
+                                        </span>
                                 </td>
-                            )}
-                        </tr>
-                    ))
+                                {showActions && (
+                                    <td>
+                                        {isPending && (
+                                            <select
+                                                className="status-select"
+                                                defaultValue=""
+                                                onChange={(e) => {
+                                                    if (e.target.value) {
+                                                        onStatusChange(inv.id, e.target.value);
+                                                    }
+                                                }}
+                                            >
+                                                <option value="" disabled>
+                                                    Select action...
+                                                </option>
+                                                <option value="APPROVED">Approve</option>
+                                                <option value="REJECTED">Reject</option>
+                                            </select>
+                                        )}
+                                    </td>
+                                )}
+                            </tr>
+                        );
+                    })
                 )}
                 </tbody>
             </table>

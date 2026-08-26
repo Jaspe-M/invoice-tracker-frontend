@@ -1,29 +1,37 @@
 import { Link } from 'react-router-dom';
+import { useApp } from '../../context/AppContext';
 import MetricsGrid from './components/MetricsGrid/MetricsGrid';
 import DepartmentBudgets from './components/DepartmentBudgets/DepartmentBudgets';
 import RecentInvoicesTable from './components/RecentInvoicesTable/RecentInvoicesTable';
 import './DashboardSection.css';
 
-const mockMetrics = {
-    totalBudget: 42000,
-    totalSpent: 31240,
-    pendingInvoices: 7,
-    overBudget: 1,
-};
-
-const mockDepartments = [
-    { id: '1', name: 'Marketing', spent: 8400, budget: 7000 },
-    { id: '2', name: 'Sales', spent: 10800, budget: 12000 },
-    { id: '3', name: 'Operations', spent: 7500, budget: 14000 },
-    { id: '4', name: 'IT', spent: 4540, budget: 9000 },
-];
-
-const mockInvoices = [
-    { id: 1, description: 'Google Ads — Oct', departmentName: 'Marketing', amount: 3200, status: 'Pending' },
-    { id: 2, description: 'Adobe Creative Cloud', departmentName: 'IT', amount: 299, status: 'Approved' },
-];
-
 export default function DashboardSection() {
+    const { dashboardData, loading, error } = useApp();
+
+    if (loading) {
+        return <div className="dashboard-container"><p>Loading manager dashboard...</p></div>;
+    }
+
+    if (error) {
+        return <div className="dashboard-container"><p className="metric-danger">Error: {error}</p></div>;
+    }
+
+    const metrics = {
+        totalBudget: dashboardData?.totalBudget ?? 0,
+        totalSpent: dashboardData?.totalSpent ?? 0,
+        pendingInvoices: dashboardData?.pendingInvoices ?? 0,
+        overBudget: dashboardData?.overBudgetCount ?? 0,
+    };
+
+    const departments = (dashboardData?.departmentBudgets ?? []).map((dept) => ({
+        id: dept.id,
+        name: dept.name,
+        spent: dept.spent,
+        budget: dept.budget,
+    }));
+
+    const invoices = dashboardData?.recentInvoices ?? [];
+
     return (
         <div className="dashboard-container">
             <header className="dashboard-header">
@@ -31,13 +39,13 @@ export default function DashboardSection() {
                 <p>Overview of current company spending and active budget limits.</p>
             </header>
 
-            <MetricsGrid metrics={mockMetrics} />
+            <MetricsGrid metrics={metrics} />
 
             <section className="dashboard-section">
                 <div className="section-header">
                     <h3>Department budgets</h3>
                 </div>
-                <DepartmentBudgets departments={mockDepartments} />
+                <DepartmentBudgets departments={departments} />
             </section>
 
             <section className="dashboard-section">
@@ -45,7 +53,7 @@ export default function DashboardSection() {
                     <h3>Recent invoices</h3>
                     <Link to="/invoices" className="section-link">View all →</Link>
                 </div>
-                <RecentInvoicesTable invoices={mockInvoices} />
+                <RecentInvoicesTable invoices={invoices} />
             </section>
         </div>
     );
