@@ -1,5 +1,6 @@
 import { Outlet } from 'react-router-dom';
 import Sidebar from '../features/Manager dashboard/components/Sidebar/Sidebar';
+import InvoiceSubmissionSection from '../features/Employee dashboard/InvoiceSubmissionSection';
 import './MainLayout.css';
 
 export default function MainLayout() {
@@ -13,6 +14,9 @@ export default function MainLayout() {
                     </div>
                 </div>
             </div>
+
+            {/* Altijd zichtbaar onderaan, ongeacht de pagina */}
+            <InvoiceSubmissionSection />
         </div>
     );
 }

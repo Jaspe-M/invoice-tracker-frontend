@@ -38,7 +38,9 @@ export const AppProvider = ({ children }) => {
         const amount = parseFloat(newInvoice.amount);
         const deptId = Number(newInvoice.departmentId);
 
-        const dept = departments.find((d) => d.id === deptId);
+        const dept =
+            dashboardData?.departmentBudgets?.find((d) => d.id === deptId) ||
+            departments.find((d) => d.id === deptId);
         const deptName = dept ? dept.name : 'Unknown';
 
         const createdInvoice = {
@@ -46,40 +48,34 @@ export const AppProvider = ({ children }) => {
             description: newInvoice.description,
             amount,
             status: 'PENDING',
+            departmentId: deptId,
             departmentName: deptName,
             createdAt: new Date().toISOString(),
         };
 
+        // Prepend new pending invoice
         setInvoices((prev) => [createdInvoice, ...prev]);
 
+        // Increment pending counter without modifying spent/budget metrics
         setDashboardData((prev) => {
             if (!prev) return prev;
 
-            const updatedDeptBudgets = prev.departmentBudgets.map((db) => {
-                if (db.id === deptId) {
-                    return { ...db, spent: db.spent + amount };
-                }
-                return db;
-            });
-
-            const updatedTotalSpent = prev.totalSpent + amount;
-            const updatedPending = prev.pendingInvoices + 1;
-            const updatedOverBudgetCount = updatedDeptBudgets.filter(
-                (db) => db.spent > db.budget
-            ).length;
-
             return {
                 ...prev,
-                totalSpent: updatedTotalSpent,
-                pendingInvoices: updatedPending,
-                overBudgetCount: updatedOverBudgetCount,
-                departmentBudgets: updatedDeptBudgets,
+                pendingInvoices: prev.pendingInvoices + 1,
                 recentInvoices: [createdInvoice, ...prev.recentInvoices],
             };
         });
     };
 
     const updateInvoiceStatus = (id, newStatus) => {
+        const targetInvoice = invoices.find((inv) => inv.id === id);
+        if (!targetInvoice) return;
+
+        const oldStatus = targetInvoice.status?.toUpperCase();
+        const nextStatus = newStatus.toUpperCase();
+
+        // 1. Prepend to top of central invoices list
         setInvoices((prev) => {
             const target = prev.find((inv) => inv.id === id);
             if (!target) return prev;
@@ -88,6 +84,7 @@ export const AppProvider = ({ children }) => {
             return [updated, ...rest];
         });
 
+        // 2. Sync metrics & recentInvoices in dashboardData
         setDashboardData((prev) => {
             if (!prev) return prev;
 
@@ -104,9 +101,46 @@ export const AppProvider = ({ children }) => {
                 (inv) => inv.status?.toUpperCase() === 'PENDING'
             ).length;
 
+            let updatedTotalSpent = prev.totalSpent;
+            let updatedDeptBudgets = [...prev.departmentBudgets];
+
+            // Add amount to spent only when status changes to APPROVED
+            if (oldStatus !== 'APPROVED' && nextStatus === 'APPROVED') {
+                updatedTotalSpent += targetInvoice.amount;
+                updatedDeptBudgets = updatedDeptBudgets.map((db) => {
+                    if (
+                        db.id === targetInvoice.departmentId ||
+                        db.name.toLowerCase() === targetInvoice.departmentName?.toLowerCase()
+                    ) {
+                        return { ...db, spent: db.spent + targetInvoice.amount };
+                    }
+                    return db;
+                });
+            }
+            // Deduct amount if previously APPROVED invoice gets changed
+            else if (oldStatus === 'APPROVED' && nextStatus !== 'APPROVED') {
+                updatedTotalSpent = Math.max(0, updatedTotalSpent - targetInvoice.amount);
+                updatedDeptBudgets = updatedDeptBudgets.map((db) => {
+                    if (
+                        db.id === targetInvoice.departmentId ||
+                        db.name.toLowerCase() === targetInvoice.departmentName?.toLowerCase()
+                    ) {
+                        return { ...db, spent: Math.max(0, db.spent - targetInvoice.amount) };
+                    }
+                    return db;
+                });
+            }
+
+            const updatedOverBudgetCount = updatedDeptBudgets.filter(
+                (db) => db.spent > db.budget
+            ).length;
+
             return {
                 ...prev,
+                totalSpent: updatedTotalSpent,
                 pendingInvoices: pendingCount,
+                overBudgetCount: updatedOverBudgetCount,
+                departmentBudgets: updatedDeptBudgets,
                 recentInvoices: updatedRecentInvoices,
             };
         });

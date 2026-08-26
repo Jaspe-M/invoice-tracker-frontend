@@ -1,0 +1,162 @@
+.invoice-submission-card {
+    width: 100%;
+    max-width: 1150px;
+    background-color: #0f1117;
+    border: 1px solid #262b36;
+    border-radius: 12px;
+    padding: 24px;
+    box-sizing: border-box;
+    color: #f0f6fc;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+}
+
+.invoice-submission-header h2 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #f0f6fc;
+    margin: 0 0 16px 0;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #21262d;
+}
+
+.invoice-submission-body h3 {
+    font-size: 1.05rem;
+    font-weight: 600;
+    margin: 0 0 4px 0;
+}
+
+.invoice-submission-body .subtitle {
+    color: #8b949e;
+    font-size: 0.875rem;
+    margin: 0 0 16px 0;
+}
+
+.invoice-form-card {
+    background-color: #161b22;
+    border: 1px solid #21262d;
+    border-radius: 8px;
+    padding: 16px;
+}
+
+.form-row {
+    display: flex;
+    gap: 12px;
+    align-items: flex-end;
+    flex-wrap: wrap;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.form-group label {
+    font-size: 0.8rem;
+    color: #8b949e;
+}
+
+.form-group.flex-grow {
+    flex: 1;
+    min-width: 220px;
+}
+
+.form-group.amount-group {
+    width: 110px;
+}
+
+.form-input {
+    background-color: #0d1117;
+    border: 1px solid #30363d;
+    border-radius: 6px;
+    padding: 8px 12px;
+    color: #f0f6fc;
+    font-size: 0.9rem;
+    outline: none;
+}
+
+/* Hide number input spinners (arrows) */
+.form-input[type="number"]::-webkit-outer-spin-button,
+.form-input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.form-input[type="number"] {
+    -moz-appearance: textfield;
+}
+
+.form-input:focus {
+    border-color: #58a6ff;
+}
+
+.submit-btn {
+    background-color: #21262d;
+    border: 1px solid #363b42;
+    border-radius: 6px;
+    color: #f0f6fc;
+    padding: 9px 18px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    height: 38px;
+}
+
+.submit-btn:hover {
+    background-color: #30363d;
+}
+
+/* Badge container */
+.dept-stats-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background-color: #0d1117;
+    border: 1px solid #21262d;
+    border-radius: 6px;
+    padding: 4px 10px;
+    margin-top: 10px;
+    font-size: 0.7rem;
+}
+
+.stat-col {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Dynamic spending colors */
+.stat-col.green .stat-value {
+    color: #3fb950;
+}
+
+.stat-col.orange .stat-value {
+    color: #d29922;
+}
+
+.stat-col.red .stat-value {
+    color: #f85149;
+}
+
+.stat-label {
+    color: #8b949e;
+    font-weight: 700;
+    font-size: 0.58rem;
+    letter-spacing: 0.4px;
+}
+
+.stat-value {
+    font-weight: 600;
+    font-size: 0.75rem;
+}
+
+.stat-divider {
+    width: 1px;
+    height: 16px;
+    background-color: #21262d;
+}
+
+.dept-tag {
+    color: #8b949e;
+    margin-left: 4px;
+    font-size: 0.7rem;
+}
