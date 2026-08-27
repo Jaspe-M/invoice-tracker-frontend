@@ -1,16 +1,53 @@
-# React + Vite
+# Budget Tracker Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+React dashboard interface for monitoring company spending, managing department budget allocations, and handling invoice approvals.
 
-Currently, two official plugins are available:
+## Demo
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+[View Live Demo](https://your-demo-url-here.com)
 
-## React Compiler
+## Key Features
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+### 1. Invoice Approval Workflow
+* Review, accept, or reject pending invoices in the **Invoices** section.
+* Status updates appear instantly on the **Manager Dashboard** without a page refresh.
 
-## Expanding the ESLint configuration
+### 2. Dynamic Budget Allocation
+* Increase budget limits for specific departments (e.g., Marketing) to clear "Over budget" warnings.
+* Budget updates apply across both the Manager Dashboard and the Employee view.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+### 3. Invoice Submission
+* Submit new invoices by selecting a department, adding a description, and entering the expense amount.
+* Submitted invoices appear instantly in the manager's review list on the dashboard.
+
+### 4. Visual Budget Indicators
+* Progress bars change colors based on department spending thresholds:
+    * **Green:** Safe spending range (<80% of budget spent)
+    * **Orange:** Warning / approaching limit (80%–100% of budget spent)
+    * **Red:** Over budget limit (>100% of budget spent)
+
+### 5. Department Shortcuts 
+* Click any department card on the **Manager Dashboard** to jump straight to its invoices.
+
+## Tech Stack
+* React
+* Vite
+* JavaScript
+
+## Local Setup
+
+1. **Install dependencies:**
+   ```bash
+   npm install
+   ```
+
+2. **Configure environment variables:**
+   Create a `.env.local` file in the root directory:
+   ```env
+   VITE_API_URL=http://localhost:8080
+   ```
+
+3. **Run the development server:**
+   ```bash
+   npm run dev
+   ```
