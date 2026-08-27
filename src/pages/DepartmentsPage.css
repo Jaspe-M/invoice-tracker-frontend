@@ -52,7 +52,7 @@
     width: 100%;
 }
 
-/* Forces single department card to stretch 100% full width */
+
 .department-budget-overview .department-budgets-grid {
     grid-template-columns: 1fr;
     width: 100%;

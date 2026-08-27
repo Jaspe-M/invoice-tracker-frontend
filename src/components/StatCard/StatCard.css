@@ -14,7 +14,7 @@
     margin-bottom: 0.35rem;
 }
 
-/* Standaard (wit) voor 0 en overige waarden */
+
 .stat-card-value {
     font-size: 1.35rem;
     font-weight: 700;
@@ -22,7 +22,7 @@
     line-height: 1.2;
 }
 
-/* Enkel actief als getal > 0 */
+
 .stat-card-value.stat-value-orange {
     color: #d29922;
 }

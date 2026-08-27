@@ -12,6 +12,7 @@
     padding: 0.85rem 1.1rem;
     width: 100%;
     box-sizing: border-box;
+    cursor: pointer;
     transition: transform 0.15s ease, border-color 0.15s ease, background-color 0.15s ease;
 }
 

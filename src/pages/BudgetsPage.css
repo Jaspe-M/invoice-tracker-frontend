@@ -91,7 +91,7 @@
     font-weight: 500;
 }
 
-/* Status Text Colors applied strictly to the spent amount */
+
 .status-red {
     color: rgba(208, 60, 60, 0.56) !important;
 }

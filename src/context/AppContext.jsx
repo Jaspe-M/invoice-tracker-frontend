@@ -5,7 +5,7 @@ import { getInvoices } from '../services/invoiceService';
 
 const AppContext = createContext();
 
-// Helper om bedragen veilig naar een getal te converteren
+
 const parseAmount = (val) => {
     if (typeof val === 'number') return val;
     if (!val) return 0;
@@ -13,7 +13,7 @@ const parseAmount = (val) => {
     return parseFloat(cleaned) || 0;
 };
 
-// Helper om afdelings-ID en naam uit een factuur-object te halen
+
 const extractDeptInfo = (invoice) => {
     let id = invoice.departmentId || invoice.department_id || null;
     let name = invoice.departmentName || invoice.department_name || null;
@@ -106,7 +106,7 @@ export const AppProvider = ({ children }) => {
 
         const { id: targetDeptId, name: targetDeptName } = extractDeptInfo(targetInvoice);
 
-        // 1. Verplaats verwerkte factuur naar de bovenkant van de volledige lijst
+
         setInvoices((prev) => {
             const target = prev.find((inv) => String(inv.id) === String(id)) || targetInvoice;
             const updated = { ...target, status: newStatus };
@@ -114,7 +114,6 @@ export const AppProvider = ({ children }) => {
             return [updated, ...rest];
         });
 
-        // 2. Sync dashboard indicators & beperk recentInvoices strikt tot 2 items
         setDashboardData((prev) => {
             if (!prev) return prev;
 

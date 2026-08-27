@@ -12,5 +12,5 @@ body {
     font-family: var(--font-sans), sans-serif;
     min-height: 100vh;
     line-height: 1.5;
-    -webkit-font-smoothing: antialiased;
+    zoom: 87%;
 }

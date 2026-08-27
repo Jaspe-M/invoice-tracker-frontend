@@ -2,12 +2,12 @@
     width: 100%;
     max-width: 1150px;
     background-color: #0f1117;
-    border: 1px solid #262b36;
+    border: 5px solid #262b36;
     border-radius: 12px;
     padding: 24px;
     box-sizing: border-box;
     color: #f0f6fc;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+    box-shadow: 0 10px 30px rgba(255, 255, 255, 0.4);
 }
 
 .invoice-submission-header h2 {
