@@ -4,7 +4,7 @@ React dashboard interface for monitoring company spending, managing department b
 
 ## Demo
 
-[View Live Demo](https://your-demo-url-here.com)
+[View Live Demo](https://invoice-tracker-frontend-teal.vercel.app/)
 
 ## Key Features
 
