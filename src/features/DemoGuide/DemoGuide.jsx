@@ -14,7 +14,7 @@ export default function DemoGuide() {
                 </li>
                 <li className="guide-item">
                     <span className="guide-title">Fix Over-Budget Warning</span>
-                    <p className="guide-desc">Raise Marketing's limit in <em>Budgets</em> to clear the alert.</p>
+                    <p className="guide-desc">Raise Marketing's limit in <em>Budgets</em> to clear the "over budget" alert.</p>
                 </li>
                 <li className="guide-item">
                     <span className="guide-title">Test Warning Thresholds</span>
