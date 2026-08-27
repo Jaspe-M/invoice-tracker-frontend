@@ -15,7 +15,6 @@ export default function MainLayout() {
                 </div>
             </div>
 
-            {/* Altijd zichtbaar onderaan, ongeacht de pagina */}
             <InvoiceSubmissionSection />
         </div>
     );

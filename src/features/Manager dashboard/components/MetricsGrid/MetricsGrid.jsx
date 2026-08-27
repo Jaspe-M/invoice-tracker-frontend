@@ -21,11 +21,11 @@ export default function MetricsGrid({ metrics = {} }) {
             />
             <StatCard
                 title="Pending invoices"
-                value={<span className="metric-warning">{pendingInvoices}</span>}
+                value={pendingInvoices}
             />
             <StatCard
                 title="Over budget"
-                value={<span className="metric-danger">{overBudget}</span>}
+                value={overBudget}
             />
         </div>
     );

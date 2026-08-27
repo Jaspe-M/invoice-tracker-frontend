@@ -5,6 +5,32 @@ import { getInvoices } from '../services/invoiceService';
 
 const AppContext = createContext();
 
+// Helper om bedragen veilig naar een getal te converteren
+const parseAmount = (val) => {
+    if (typeof val === 'number') return val;
+    if (!val) return 0;
+    const cleaned = String(val).replace(/[^0-9.-]/g, '');
+    return parseFloat(cleaned) || 0;
+};
+
+// Helper om afdelings-ID en naam uit een factuur-object te halen
+const extractDeptInfo = (invoice) => {
+    let id = invoice.departmentId || invoice.department_id || null;
+    let name = invoice.departmentName || invoice.department_name || null;
+
+    if (typeof invoice.department === 'object' && invoice.department !== null) {
+        id = id || invoice.department.id;
+        name = name || invoice.department.name;
+    } else if (typeof invoice.department === 'string') {
+        name = name || invoice.department;
+    }
+
+    return {
+        id: id ? String(id).toLowerCase() : null,
+        name: name ? String(name).toLowerCase() : null,
+    };
+};
+
 export const AppProvider = ({ children }) => {
     const [dashboardData, setDashboardData] = useState(null);
     const [departments, setDepartments] = useState([]);
@@ -35,12 +61,12 @@ export const AppProvider = ({ children }) => {
     }, []);
 
     const addInvoice = (newInvoice) => {
-        const amount = parseFloat(newInvoice.amount);
+        const amount = parseAmount(newInvoice.amount);
         const deptId = Number(newInvoice.departmentId);
 
         const dept =
-            dashboardData?.departmentBudgets?.find((d) => d.id === deptId) ||
-            departments.find((d) => d.id === deptId);
+            dashboardData?.departmentBudgets?.find((d) => String(d.id) === String(deptId)) ||
+            departments.find((d) => String(d.id) === String(deptId));
         const deptName = dept ? dept.name : 'Unknown';
 
         const createdInvoice = {
@@ -50,82 +76,80 @@ export const AppProvider = ({ children }) => {
             status: 'PENDING',
             departmentId: deptId,
             departmentName: deptName,
+            department: { id: deptId, name: deptName },
             createdAt: new Date().toISOString(),
         };
 
-        // Prepend new pending invoice
         setInvoices((prev) => [createdInvoice, ...prev]);
 
-        // Increment pending counter without modifying spent/budget metrics
         setDashboardData((prev) => {
             if (!prev) return prev;
 
             return {
                 ...prev,
                 pendingInvoices: prev.pendingInvoices + 1,
-                recentInvoices: [createdInvoice, ...prev.recentInvoices],
+                recentInvoices: [createdInvoice, ...(prev.recentInvoices || [])].slice(0, 2),
             };
         });
     };
 
     const updateInvoiceStatus = (id, newStatus) => {
-        const targetInvoice = invoices.find((inv) => inv.id === id);
+        const targetInvoice =
+            invoices.find((inv) => String(inv.id) === String(id)) ||
+            dashboardData?.recentInvoices?.find((inv) => String(inv.id) === String(id));
+
         if (!targetInvoice) return;
 
         const oldStatus = targetInvoice.status?.toUpperCase();
         const nextStatus = newStatus.toUpperCase();
+        const invoiceAmount = parseAmount(targetInvoice.amount);
 
-        // 1. Prepend to top of central invoices list
+        const { id: targetDeptId, name: targetDeptName } = extractDeptInfo(targetInvoice);
+
+        // 1. Verplaats verwerkte factuur naar de bovenkant van de volledige lijst
         setInvoices((prev) => {
-            const target = prev.find((inv) => inv.id === id);
-            if (!target) return prev;
+            const target = prev.find((inv) => String(inv.id) === String(id)) || targetInvoice;
             const updated = { ...target, status: newStatus };
-            const rest = prev.filter((inv) => inv.id !== id);
+            const rest = prev.filter((inv) => String(inv.id) !== String(id));
             return [updated, ...rest];
         });
 
-        // 2. Sync metrics & recentInvoices in dashboardData
+        // 2. Sync dashboard indicators & beperk recentInvoices strikt tot 2 items
         setDashboardData((prev) => {
             if (!prev) return prev;
 
-            const target = prev.recentInvoices.find((inv) => inv.id === id);
-            let updatedRecentInvoices = prev.recentInvoices;
+            const targetRecent = (prev.recentInvoices || []).find((inv) => String(inv.id) === String(id)) || targetInvoice;
+            const updatedRecent = { ...targetRecent, status: newStatus };
+            const restRecent = (prev.recentInvoices || []).filter((inv) => String(inv.id) !== String(id));
+            const updatedRecentInvoices = [updatedRecent, ...restRecent].slice(0, 2);
 
-            if (target) {
-                const updated = { ...target, status: newStatus };
-                const rest = prev.recentInvoices.filter((inv) => inv.id !== id);
-                updatedRecentInvoices = [updated, ...rest];
-            }
-
-            const pendingCount = updatedRecentInvoices.filter(
-                (inv) => inv.status?.toUpperCase() === 'PENDING'
-            ).length;
+            const pendingCount = (invoices || []).filter((inv) => {
+                const currentStatus = String(inv.id) === String(id) ? newStatus : inv.status;
+                return currentStatus?.toUpperCase() === 'PENDING';
+            }).length;
 
             let updatedTotalSpent = prev.totalSpent;
-            let updatedDeptBudgets = [...prev.departmentBudgets];
+            let updatedDeptBudgets = [...(prev.departmentBudgets || [])];
 
-            // Add amount to spent only when status changes to APPROVED
+            const isMatchingDept = (db) => {
+                const dbId = String(db.id).toLowerCase();
+                const dbName = String(db.name).toLowerCase();
+                return dbId === targetDeptId || dbName === targetDeptName;
+            };
+
             if (oldStatus !== 'APPROVED' && nextStatus === 'APPROVED') {
-                updatedTotalSpent += targetInvoice.amount;
+                updatedTotalSpent += invoiceAmount;
                 updatedDeptBudgets = updatedDeptBudgets.map((db) => {
-                    if (
-                        db.id === targetInvoice.departmentId ||
-                        db.name.toLowerCase() === targetInvoice.departmentName?.toLowerCase()
-                    ) {
-                        return { ...db, spent: db.spent + targetInvoice.amount };
+                    if (isMatchingDept(db)) {
+                        return { ...db, spent: db.spent + invoiceAmount };
                     }
                     return db;
                 });
-            }
-            // Deduct amount if previously APPROVED invoice gets changed
-            else if (oldStatus === 'APPROVED' && nextStatus !== 'APPROVED') {
-                updatedTotalSpent = Math.max(0, updatedTotalSpent - targetInvoice.amount);
+            } else if (oldStatus === 'APPROVED' && nextStatus !== 'APPROVED') {
+                updatedTotalSpent = Math.max(0, updatedTotalSpent - invoiceAmount);
                 updatedDeptBudgets = updatedDeptBudgets.map((db) => {
-                    if (
-                        db.id === targetInvoice.departmentId ||
-                        db.name.toLowerCase() === targetInvoice.departmentName?.toLowerCase()
-                    ) {
-                        return { ...db, spent: Math.max(0, db.spent - targetInvoice.amount) };
+                    if (isMatchingDept(db)) {
+                        return { ...db, spent: Math.max(0, db.spent - invoiceAmount) };
                     }
                     return db;
                 });
@@ -147,17 +171,17 @@ export const AppProvider = ({ children }) => {
     };
 
     const updateBudget = (departmentId, newBudget) => {
-        const budgetVal = parseFloat(newBudget);
+        const budgetVal = parseAmount(newBudget);
 
         setDepartments((prev) =>
-            prev.map((d) => (d.id === departmentId ? { ...d, budget: budgetVal } : d))
+            prev.map((d) => (String(d.id) === String(departmentId) ? { ...d, budget: budgetVal } : d))
         );
 
         setDashboardData((prev) => {
             if (!prev) return prev;
 
             const updatedDeptBudgets = prev.departmentBudgets.map((db) => {
-                if (db.id === departmentId) {
+                if (String(db.id) === String(departmentId)) {
                     return { ...db, budget: budgetVal };
                 }
                 return db;

@@ -15,11 +15,20 @@ export default function InvoicesPage() {
         return <div className="invoices-page-container"><p className="status-red">Error: {error}</p></div>;
     }
 
-    const pendingInvoices = invoices.filter(
-        (inv) => inv.status?.toUpperCase() === 'PENDING'
+    // Sorteerfunctie: nieuwste facturen altijd bovenaan
+    const sortByNewest = (list) => {
+        return [...list].sort((a, b) => {
+            const timeA = new Date(a.createdAt || a.created_at || a.date || 0).getTime() || Number(a.id) || 0;
+            const timeB = new Date(b.createdAt || b.created_at || b.date || 0).getTime() || Number(b.id) || 0;
+            return timeB - timeA; // Meest recente bovenaan (aflopend)
+        });
+    };
+
+    const pendingInvoices = sortByNewest(
+        invoices.filter((inv) => inv.status?.toUpperCase() === 'PENDING')
     );
-    const processedInvoices = invoices.filter(
-        (inv) => inv.status?.toUpperCase() !== 'PENDING'
+    const processedInvoices = sortByNewest(
+        invoices.filter((inv) => inv.status?.toUpperCase() !== 'PENDING')
     );
 
     return (
