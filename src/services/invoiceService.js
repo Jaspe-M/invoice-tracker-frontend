@@ -5,6 +5,7 @@ export async function getInvoices() {
     return response.data;
 }
 
+/*
 export async function createInvoice(invoiceData) {
     const response = await apiClient.post('/invoices', invoiceData);
     return response.data;
@@ -13,4 +14,4 @@ export async function createInvoice(invoiceData) {
 export async function updateInvoiceStatus(id, status) {
     const response = await apiClient.patch(`/invoices/${id}/status`, { status });
     return response.data;
-}
+}*/
