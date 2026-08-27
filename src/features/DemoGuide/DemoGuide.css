@@ -1,0 +1,68 @@
+.guide-container {
+    width: 300px;
+    flex-shrink: 0;
+    background-color: #0f1117;
+    border: 1px solid #262b36;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+}
+
+.guide-header {
+    margin-bottom: 1.25rem;
+    border-bottom: 1px solid #262b36;
+    padding-bottom: 0.85rem;
+}
+
+.guide-pill {
+    display: inline-block;
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #3b82f6;
+    background-color: rgba(59, 130, 246, 0.1);
+    border: 1px solid rgba(59, 130, 246, 0.2);
+    padding: 0.25rem 0.6rem;
+    border-radius: 4px;
+    margin-bottom: 0.5rem;
+}
+
+.guide-header h2 {
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: #f9fafb;
+}
+
+.guide-checklist {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding-left: 1.2rem;
+}
+
+.guide-checklist li::marker {
+    color: #3b82f6;
+    font-weight: bold;
+    font-size: 0.95rem;
+}
+
+.guide-title {
+    display: block;
+    color: #e5e7eb;
+    font-size: 0.875rem;
+    font-weight: 600;
+    margin-bottom: 0.2rem;
+}
+
+.guide-desc {
+    margin: 0;
+    line-height: 1.4;
+    color: #9ca3af;
+    font-size: 0.825rem;
+}
+
+.guide-desc em {
+    color: #60a5fa;
+    font-style: normal;
+}
