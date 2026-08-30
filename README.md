@@ -1,6 +1,8 @@
 # Budget Tracker Frontend
 
-React dashboard interface for monitoring company spending, managing department budget allocations, and handling invoice approvals.
+A React dashboard paired with a my [Spring Boot backend](https://github.com/Jaspe-M/Invoice-Tracker-Backend), built to simulate how an internal finance tool works in a real company.
+Finance managers get a live overview of department spending, a pending invoice queue to approve or reject, and the ability to set monthly budget allocations per department.
+Employees can submit invoices and instantly see how much budget their department has left for the month.
 
 ## Demo
 
@@ -26,7 +28,7 @@ React dashboard interface for monitoring company spending, managing department b
     * **Orange:** Warning / approaching limit (80%–100% of budget spent)
     * **Red:** Over budget limit (>100% of budget spent)
 
-### 5. Department Shortcuts 
+### 5. Department Shortcuts
 * Click any department card on the **Manager Dashboard** to jump straight to its invoices.
 
 ## Tech Stack
@@ -37,17 +39,17 @@ React dashboard interface for monitoring company spending, managing department b
 ## Local Setup
 
 1. **Install dependencies:**
-   ```bash
+```bash
    npm install
-   ```
+```
 
 2. **Configure environment variables:**
    Create a `.env.local` file in the root directory:
-   ```env
+```env
    VITE_API_URL=http://localhost:8080
-   ```
+```
 
 3. **Run the development server:**
-   ```bash
+```bash
    npm run dev
-   ```
+```
