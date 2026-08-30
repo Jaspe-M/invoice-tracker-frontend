@@ -1,6 +1,6 @@
 # Budget Tracker Frontend
 
-A React dashboard paired with a my [Spring Boot backend](https://github.com/Jaspe-M/Invoice-Tracker-Backend), built to simulate how an internal finance tool works in a real company.
+A React dashboard paired with my [Spring Boot backend](https://github.com/Jaspe-M/Invoice-Tracker-Backend), built to simulate how an internal finance tool works in a real company.
 Finance managers get a live overview of department spending, a pending invoice queue to approve or reject, and the ability to set monthly budget allocations per department.
 Employees can submit invoices and instantly see how much budget their department has left for the month.
 
