@@ -17,6 +17,10 @@ export default function DemoGuide() {
                     <p className="guide-desc">Raise Marketing's limit in <em>Budgets</em> to clear the "over budget" alert.</p>
                 </li>
                 <li className="guide-item">
+                    <span className="guide-title">Submit an invoice</span>
+                    <p className="guide-desc">Submit an invoice on the <em>Epmloyee Dashboard</em> for a department of your choice.</p>
+                </li>
+                <li className="guide-item">
                     <span className="guide-title">Test Warning Thresholds</span>
                     <p className="guide-desc">Submit and accepts invoices until all departments reaches 80% of its budget (turns orange).</p>
                 </li>
